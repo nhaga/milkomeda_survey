@@ -12,6 +12,13 @@ data = pd.read_csv(file)
 st.sidebar.subheader("16.01.2023")
 st.sidebar.caption(f"Answers: {data.shape[0]}")
 
+if st.sidebar.button('Get Winners'):
+    st.sidebar.write('10 Random Winners')
+    flds = ['Submission ID', 'Submission IP']
+    st.sidebar.dataframe(data=data[flds].sample(10))
+else:
+    pass
+
 
 
 st.subheader('How did you get to know dcspark?')
