@@ -15,7 +15,28 @@ st.sidebar.caption(f"Answers: {data.shape[0]}")
 if st.sidebar.button('Get Winners'):
     st.sidebar.write('10 Random Winners')
     flds = ['Submission ID', 'Submission IP']
-    st.sidebar.dataframe(data=data[flds].sample(10))
+    flds = ['Submission ID', '(Optional) If you would like a chance to win 400 Ada , please write your Cardano wallet address ']
+    sub = data[flds].dropna().sample(10)
+    sub.columns = ['ID', 'Wallet']
+    st.sidebar.dataframe(data=sub)
+
+    @st.experimental_memo
+    def convert_df(df):
+        return df.to_csv(index=False).encode('utf-8')
+
+
+    csv = convert_df(sub)
+
+    st.sidebar.download_button(
+    "Press to Download",
+    csv,
+    "file.csv",
+    "text/csv",
+    key='download-csv'
+    )
+
+
+
 else:
     pass
 
